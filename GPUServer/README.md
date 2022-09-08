@@ -1,5 +1,10 @@
 # User guide
 
+## Manual Path
+Manual (server): `/Data/config/group-resource/GPUServer/README.md`
+
+Manual (online): [https://github.com/gdmnl/group-doc/tree/main/GPUServer](https://github.com/gdmnl/group-doc/tree/main/GPUServer)
+
 *Chinese version at [README_CN.md](README_CN.md) / 中文版本见 [README_CN.md](README_CN.md)*
 
 ## How to start
@@ -29,6 +34,29 @@ The installed machine comes with:
 
 ---
 ## Advance instructions
+### Network
+* Use `ssh-copy-id "-p <port> ubuntu@<ip>"` to add public key
+* Connect using **VSCode**:
+  1. Install extension such as [Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)
+  2. Follow the guide or manually add below information to `~/.ssh/config`:
+    ```
+    Host [your name]
+        HostName <ip>
+        User ubuntu
+        Port <port>
+    ```
+* Connect using **Jupyter Notebook / Jupyter Lab**:
+  1. Add port forwarding in SSH connection: `ssh ubuntu@<ip> -p <port> -L 8888:<ip>:<port+66>`
+  2. On the server, start Jupyter Notebook / Jupyter Lab: `jupyter notebook --no-browser`
+    * If the default port is not `localhost:8888`, manually identify by: `jupyter notebook --no-browser --port 8888 --ip 0.0.0.0`
+  3. On your local machine, open browser and go to [http://localhost:8888](http://localhost:8888)
+* Port mapping as below. Other ports are disabled, contact admin if you need to access them (e.g. GUI, Remote Desktop)
+    | Port in *container* | Port in *host* |
+    | --- | --- |
+    | 22 | `<port>` |
+    | 8888 | `<port+66>` |
+* Outflow connection in *container* uses default LXD NAT
+
 ### Machine
 * Each machine is a container host by LXD 4 with ZFS backend
 * Default user in *container* is `ubuntu` which has root
@@ -51,11 +79,6 @@ Below are special directories in *host*:
   * Share data folder (mapped as `/Data` in *container*): `/data/data` (read and write)
   * Share resource folder (mapped as `/Resource` in *container*): `/fs/resource` (read and write)
   * Host user cannot directly access container file system. To transfer files with container, use home directory `/home/<username>` (mapped as `/home0/<username>` in *container*)
-
-### Network
-* Use `ssh-copy-id "-p <port> ubuntu@<ip>"` to add public key
-* Port `22` in *container* is mapped with port `<port>` in *host*. Other ports are disabled, contact admin if you need to access them (e.g. GUI, Jupyter Lab)
-* Outflow connection in *container* uses default LXD NAT
 
 ### NVIDIA
 * Reinstall CUDA (common CUDA versions are stored in `/Data/cuda/`):
