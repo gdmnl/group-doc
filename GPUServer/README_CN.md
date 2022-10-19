@@ -14,7 +14,7 @@ ssh ubuntu@<ip> -p <port>
 
 输入收到的初始密码，首次登录后会提示进行修改密码. 请使用强密码.
 
-现在可以作为 `ubuntu` 用户开始使用了（一般 "mapped username: `<username>`" 这行无关紧要）.
+现在可以作为 `ubuntu` 用户开始使用了（一般 "mapped username: `<username>`" 不会用到）.
 
 ## 默认设置
 已经配置好的环境包括：
